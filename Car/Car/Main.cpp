@@ -31,7 +31,10 @@ public:
 		if (fuel_level < 0)fuel_level = 0;
 		return fuel_level;
 	}
-	Tank(int volume):VOLUME(volume)
+	Tank(int volume):VOLUME
+	(
+		
+	)
 	{
 		
 		this->fuel_level = 0;
@@ -47,9 +50,72 @@ public:
 
 
 
+#define MIN_ENGINE_CONSUMPTION 3
+#define MAX_ENGINE_CONSUMPTION 30
+class Engine
+{
+	const double CONSUMPTION;
+	double consumption_per_second;
+	bool is_started;
+public:
+	double get_consumption()const
+	{
+		return CONSUMPTION;
+	}
+	double get_consumption_per_second()const
+	{
+		return consumption_per_second;
+	}
+	Engine(double consumption)
+		:CONSUMPTION(
+			consumption < MIN_ENGINE_CONSUMPTION ? MIN_ENGINE_CONSUMPTION :
+			consumption > MAX_ENGINE_CONSUMPTION ? MAX_ENGINE_CONSUMPTION :
+			consumption),
+		consumption_per_second(CONSUMPTION * 3e-5),
+		is_started(false)
+	{
+		//this->consumption_per_second = CONSUMPTION * 3e-5;
+		cout << "Engine is ready: " << this << endl;
+	}
+	~Engine()
+	{
+		cout << "Engine is over: " << this << endl;
+	}
+	void start()
+	{
+		is_started = true;
+	}
+	void stop()
+	{
+		is_started = false;
+	}
+	bool started()const
+	{
+		return is_started;
+	}
+	void info()const
+	{
+		cout << "Consumpition: " << CONSUMPTION << " liters/100km" << endl;
+		cout << "Consumpition: " << consumption_per_second<< " liters/sec" << endl;
+		cout << "" << (is_started ? "" : "") << endl;
+	}
+};
+
+
+
 void main()
 {
 	setlocale(LC_ALL, "");
-	Tank tank(50);
-	tank.info();
+	/*Tank tank(50);
+	int fuel;
+	do 
+	{
+		cout << "¬ведите обьем топлива: "; cin >> fuel;
+		tank.fill(fuel);
+		tank.info();
+	} while (fuel > 0);
+	string str;*/
+
+	Engine engine(10);
+	engine.info();
 };
